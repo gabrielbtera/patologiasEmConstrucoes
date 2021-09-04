@@ -1,3 +1,3 @@
-# patologias Em Construcoes
-## Análise das manifestações patológicas na Câmara de Vereadores Casa Anísio Galvão – Pesqueira - PE
+# Patologias em Construções
+## Análise das manifestações patológicas na Câmara de Vereadores Casa Anísio Galvão – Pesqueira - PE.
 ### Auxiliei em um TCC de um graduando em engenharia civil pelo IFS de Alagoas, que tem o objetivo de usar o método GUT e fazer uma analise difusa com a linguagem python integrada a uma planilha Excell como interface. E com isso, detectar o grau de prioridade de correções na estrutura física do prédio da câmara de vereadores de Pesqueira - PE, gerando gráficos que ajudem ao Engenheiro Civil tomar a melhor decisão.
