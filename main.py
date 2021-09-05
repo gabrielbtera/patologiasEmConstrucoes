@@ -141,3 +141,22 @@ def out_system(g, u,  t):
 
     return variavel_simulador.output["saida"]
 
+
+def analise_difusa():
+    """
+    Esta função faz a operação da analise difusa em todos os itens da planilha
+
+    """
+
+    g = list(planilha["G"][1:])
+    u = list(planilha["U"][1:])
+    t = list(planilha["T"][1:])
+
+    lista = []
+    for i in range(len(g)):
+        lista.append(out_system(g[i], u[i], t[i]))
+
+
+
+    return lista
+
