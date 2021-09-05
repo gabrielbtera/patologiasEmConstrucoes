@@ -160,3 +160,26 @@ def analise_difusa():
 
     return lista
 
+
+def escreve_excell():
+    """
+    a definir"""
+    copia = planilha.copy()
+    
+    s = pd.Series([float("nan")] + analise_difusa(), name="vals")
+    
+    copia["valores"] = s
+
+    writer = pd.ExcelWriter("arquivoeditado1.xlsx", engine= 'openpyxl')
+
+
+    copia.to_excel(writer, "Sheet1")
+
+    #analise_difusa().to_excel(writer, 'Sheet1', startrow=1, startcol=6, header=False, index=False)
+
+    writer.save()
+
+"""salva_imagens_do_gráfico([gera_valores_e_graficos_das_entradas_e_saida()["gravidade"]
+, gera_valores_e_graficos_das_entradas_e_saida()["urgencia"]])"""
+
+out_system(3, 2, 2)
