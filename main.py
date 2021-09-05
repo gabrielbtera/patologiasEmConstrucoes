@@ -60,3 +60,63 @@ def gera_valores_e_graficos_das_entradas_e_saida():
     return dicionario
 
 
+
+def salva_imagens_do_gráfico(lista):
+    """
+    Esta função recebe como paramentro uma lista de variaveis da
+    classe control instanciada em ctrl, Usando os metodos Antecedent
+    e Consequent
+    """
+    for i in lista:
+        i.view()
+        save = i.label
+        plt.savefig(save + ".png")
+
+
+def regras(g, u, t):
+    """ esta função gera as regras e retorna uma lista delas
+    """
+
+    # onde é gerado os valores que estão na planilha
+    valores = gera_valores_e_graficos_das_entradas_e_saida()  # dict
+    gravidade = retorna_lista_de_planilha("Plan2", "Gravidade")  # list
+    urgencia = retorna_lista_de_planilha("Plan2", "Urgência")   # list
+    tendencia = retorna_lista_de_planilha("Plan2", "Tendência")  # list
+    saida = ['Muito pouco', 'Pouco', 'Meio', 'Muito', 'Extremamente']
+
+    # salva em as regras em lista_regras
+    lista_regras = []
+
+    # aqui é onde as regras são geradas
+    for indice in range(5):
+        """regra = ctrl.Rule(valores["gravidade"][gravidade[indice]] |
+                            valores["urgencia"][urgencia[indice]] &
+                            valores["tendencia"][tendencia[indice]],
+                            valores["saida"][saida[indice]]
+                            )"""
+        if g > t:
+            regra = ctrl.Rule(valores["gravidade"][gravidade[indice]] |
+                            valores["urgencia"][urgencia[indice]] &
+                            valores["tendencia"][tendencia[indice]],
+                            valores["saida"][saida[indice]]
+                            )
+            lista_regras.append(regra)
+
+        if g <= t:
+            regra = ctrl.Rule(valores["tendencia"][tendencia[indice]] |
+                            valores["urgencia"][urgencia[indice]] &
+                            valores["gravidade"][gravidade[indice]],
+                            valores["saida"][saida[indice]]
+                            )
+            lista_regras.append(regra)
+
+        if u >= g:
+            regra = ctrl.Rule(valores["urgencia"][urgencia[indice]] |
+                            valores["gravidade"][gravidade[indice]] &
+                            valores["tendencia"][tendencia[indice]],
+                            valores["saida"][saida[indice]]
+                            )
+            lista_regras.append(regra)
+        
+    return lista_regras
+
