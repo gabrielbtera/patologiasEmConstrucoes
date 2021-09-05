@@ -120,3 +120,24 @@ def regras(g, u, t):
         
     return lista_regras
 
+
+def out_system(g, u,  t):
+    """
+    Esta função recebe os parametros do metodo gut e retorna
+    o numero gerado de acordo com as regras da função regras()
+    """
+
+    saida = gera_valores_e_graficos_das_entradas_e_saida()["saida"]
+    # instanciando o controle do sitema
+    variavel_ctrl = ctrl.ControlSystem(regras(g , u, t))
+    variavel_simulador = ctrl.ControlSystemSimulation(variavel_ctrl)
+
+    variavel_simulador.input["gravidade"] = g
+    variavel_simulador.input["urgencia"] = u
+    variavel_simulador.input["tendencia"] = t
+
+    variavel_simulador.compute()
+    
+
+    return variavel_simulador.output["saida"]
+
