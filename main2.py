@@ -25,3 +25,21 @@ def retorna_lista_de_planilha(nome_planilha, coluna):
     """Esta funcao retorna uma lista de coluna pertencente a uma planilha"""
     return ler_planilha(nome_planilha)[coluna].values[::-1]
 
+
+
+# -----------------------------------------------------------------------
+
+# Variaveis universo do problema
+gravidade = ctrl.Antecedent(np.arange(1, 6, 1), "gravidade")
+urgencia = ctrl.Antecedent(np.arange(1, 6, 1), "urgencia")
+tendencia = ctrl.Antecedent(np.arange(1, 6, 1), "tendencia")
+saida = ctrl.Consequent(np.arange(1, 6, 1), "saida")
+
+# atribuindo variaveis difusas
+gravidade.automf(names= retorna_lista_de_planilha("Plan2", "Gravidade"))
+urgencia.automf(names= retorna_lista_de_planilha("Plan2", "Urgência"))
+tendencia.automf(names= retorna_lista_de_planilha("Plan2", "Tendência"))
+saida.automf(names= ['Muito pouco', 'Pouco', 'Meio', "Muito", "Extremamente"]) 
+
+# ------------------------------------------------------------------------------
+
