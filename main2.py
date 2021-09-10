@@ -97,3 +97,108 @@ def out_system(g, u,  t ):
     return variavel_simulador.output["saida"]
 
 
+
+def analise_difusa():
+    """
+    Esta função faz a operação da analise difusa em todos os itens da planilha
+
+    """
+
+    g = list(planilha["G"][1:])
+    u = list(planilha["U"][1:])
+    t = list(planilha["T"][1:])
+
+    lista = []
+    for i in range(len(g)):
+        lista.append(out_system(g[i], u[i], t[i]))
+
+
+    return lista
+
+
+
+def seta_valores_difusos(valor , intervalo = 3):
+    """
+    esta função trasforma os valores difusos em ordem de prioridade que está
+    delimitada pelo, parametro intervalo
+    """
+    check = list()
+    
+    if int(valor) - valor == 0:
+        lista = []
+        for i in range(intervalo):
+            lista.append("prioridade "+ str((i + 1)))
+
+        return [lista[::-1][int(valor) -1]]
+
+    else :
+        temp = "prioridade "
+
+        def fconc(intervalo, valor = 0):
+            """Esta funcao faz um concatenação das prioridades"""
+            return temp + str(intervalo + valor)
+        
+        numeros = [1.5, 2.5, 3.5, 4.5]
+
+        cont = 1
+        for i in numeros:
+
+            if i < intervalo:
+                if int(i) == int(valor):
+                    if valor > i:
+                        check.append(fconc(intervalo, - cont))
+                        
+                    
+                    if valor == i:
+                        check.append(fconc(intervalo, -cont))
+                        check.append(fconc(intervalo, -(cont-1)))
+                        
+                        
+                    
+                    if valor < i and int(i) == 1:
+                        check.append(fconc(intervalo))
+                    
+                    elif valor < i:
+                        check.append(fconc(intervalo, - (cont - 1)))
+            
+            cont += 1
+        
+        return check
+
+
+def formata_proridade(valor, intervalo = 3):
+
+    """
+    esta função retorna a string formada pela lista de prioridade
+    para escrever no arquivo excell
+    """
+    lista = seta_valores_difusos(valor, intervalo)
+    
+    if len(lista) == 1:
+        return lista[0]
+
+    elif len(lista) > 1:
+
+        string = ""
+        flag = 1
+
+        for i in lista:
+
+            if flag % 2 != 0:
+                string += i + " e "
+            else:
+                string += i
+
+            flag +=1
+
+        return string
+
+
+def escreve_prioridades(intervalo=3):
+
+    lista_prioridades = [formata_proridade(valor, intervalo) for valor in analise_difusa()]
+
+    serie = pd.Series([float("nan")] + lista_prioridades, name="vals2")
+
+    return serie, lista_prioridades
+
