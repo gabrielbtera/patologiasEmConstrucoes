@@ -202,3 +202,46 @@ def escreve_prioridades(intervalo=3):
 
     return serie, lista_prioridades
 
+
+def escreve_excell():
+    """
+    esta função escreve um novo arquivo excell baseado no arquivo de entrada
+    só que com novas colunas"""
+
+    copia = planilha.copy()
+    
+    s = pd.Series([float("nan")] + analise_difusa(), name="vals")
+    copia["VALOR DIFUSO"] = s
+
+    print("\nO intervalo de prioridade é o maior numero existente em algumas colunas G, U ou T.")
+    print("No metodo GUT é de 1 a 5.\n")
+    intervalo = int(input("digite o intervalo da ordem de prioridade: "))
+
+    serie = escreve_prioridades(intervalo)[0]
+    copia["PRIORIDADE DIFUSA (de 1" + " a " + str(intervalo) + ")"] = serie
+
+    try: 
+        print("o nome do arquivo não poder ter caracters especiais")
+        nome_arq = input("Digite o nome que vc deseja dar ao arquivo: ")
+        
+        writer = pd.ExcelWriter(nome_arq + ".xlsx", engine= 'openpyxl')
+        copia.to_excel(writer, "Sheet1")
+        writer.save()
+
+        print("OPERAÇÃO REALIZADA!")
+
+    except:
+        print("SEU ARQUIVO ESTÁ ABERTO!")
+        novo_nome = input("Deseja salvar seu arquivo como outro nome? digite yes ou no: ")
+        
+        if novo_nome.upper() == "yes".upper():
+            nome_arq = input("Digite o nome que vc deseja dar ao arquivo diferente do que está aberto: ")
+            
+            writer = pd.ExcelWriter(nome_arq + ".xlsx", engine= 'openpyxl')
+            copia.to_excel(writer, "Sheet1")
+            writer.save()
+
+            print("OPERACAO REALIZADA!")
+        else:
+            print("FECHE O SEU ARQUIVO E EXECUTE O CÓDIGO NOVAMENTE")
+
