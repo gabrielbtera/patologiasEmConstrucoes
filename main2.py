@@ -245,3 +245,155 @@ def escreve_excell():
         else:
             print("FECHE O SEU ARQUIVO E EXECUTE O CÓDIGO NOVAMENTE")
 
+
+def plota_empate(flag, dir):
+    """
+    esta função plota a analise difusa pronta"""
+    
+    g = list(planilha["G"][1:])
+    u = list(planilha["U"][1:])
+    t = list(planilha["T"][1:])
+    nomes = list(planilha["MANIFESTAÇÃO PATOLÓGICA DETECTADA"][1:])
+    numeros = [1.5, 2.5, 3.5, 4.5]
+
+    cont = 0
+
+    for i in range(len(g)):
+        variavel_ctrl = ctrl.ControlSystem(regras(g[i] , u[i], t[i]))
+        variavel_simulador = ctrl.ControlSystemSimulation(variavel_ctrl)
+
+        variavel_simulador.input["gravidade"] = g[i]
+        variavel_simulador.input["urgencia"] = u[i]
+        variavel_simulador.input["tendencia"] = t[i]
+
+        variavel_simulador.compute()
+
+        if flag == 1:
+            if variavel_simulador.output["saida"] in numeros:
+                saida.view(sim = variavel_simulador)
+                plt.savefig(dir + nomes[cont] + ".png")
+                
+
+        if flag == 2:
+            saida.view(sim = variavel_simulador)
+            plt.savefig(dir + nomes[cont] + ".png")
+
+        cont += 1
+
+
+
+def plota_numero_selecionado(numero, dir):
+    g = list(planilha["G"][1:])
+    u = list(planilha["U"][1:])
+    t = list(planilha["T"][1:])
+    nomes = list(planilha["MANIFESTAÇÃO PATOLÓGICA DETECTADA"][1:])
+
+    numero -= 3
+    g = g[numero]
+    u = u[numero]
+    t = t[numero]
+
+    
+
+    variavel_ctrl = ctrl.ControlSystem(regras(g, u, t))
+    variavel_simulador = ctrl.ControlSystemSimulation(variavel_ctrl)
+
+    variavel_simulador.input["gravidade"] = g
+    variavel_simulador.input["urgencia"] = u
+    variavel_simulador.input["tendencia"] = t
+
+    variavel_simulador.compute()
+    saida.view(sim=variavel_simulador)
+    plt.savefig(dir + nomes[numero] + ".png")
+
+
+    
+
+    
+
+def plota_graficos(lista, dir, n, numero = 0):
+    """
+    esta funcao plota os graficos e escreve no diretorios
+    """
+
+    import os
+
+    if n  == 1:
+        listaft = ["/gravidade.png",
+                "/urgencia.png",
+                "/tendencia.png",
+                "/saida.png"]
+
+        try :
+            
+            os.makedirs(dir)
+            c = 0
+            for i in lista:
+                i.view()
+                plt.savefig(dir + listaft[c])
+                c += 1
+            
+        except:
+            c = 0
+            for i in lista:
+                i.view()
+                plt.savefig(dir + listaft[c])
+                c += 1
+
+    if n == 2:
+        try:
+            os.makedirs(dir)
+            plota_empate(1, dir)
+        except:
+            plota_empate(1, dir)
+
+    if n == 3:
+        try:
+           os.makedirs(dir)
+           plota_empate(2, dir)
+        except:
+            plota_empate(2, dir)
+    
+    if n == 4:
+        try:
+           os.makedirs(dir)
+           plota_numero_selecionado(numero, dir)
+        except:
+           plota_numero_selecionado(numero, dir)
+        
+
+
+
+    
+def plota_graficos_main ():
+
+    """
+    esta função gerencia as opções de plotagem de graficos
+    """
+    print("\n1 - Graficos das entradas e saida.\n2 - Graficos que a analise difusa chega a 2 conclusoes.\n3 - Todos os graficos\n4 - Selecione uma linha para plotar o grafico")
+    entrada = int(input("DIGITE  O NUMERO DA OPCAO DESEJADA: "))
+    
+
+    if entrada == 1:
+        dir = "./EntradasSaidas"
+        plota_graficos([gravidade, urgencia, tendencia, saida], dir, 1)
+
+    elif entrada == 2:
+        dir = "./Empates/"
+        plota_graficos([], dir, 2)
+
+    elif entrada == 3:
+        dir = "./todosgraficos/"
+        plota_graficos([], dir, 3)
+    
+    elif entrada == 4:
+        dir = "./graficosSelecionados/"
+        op = int(input("\nDigite a linha que vc deseja imprimir o grafico: "))
+
+        plota_graficos([], dir, 4, op)
+        print("salvo na pasta graficosSelecionados")
+
+    else:
+        print("OPCAO INVALIDA")
+
+
