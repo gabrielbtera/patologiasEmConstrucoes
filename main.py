@@ -89,11 +89,7 @@ def regras(g, u, t):
 
     # aqui é onde as regras são geradas
     for indice in range(5):
-        """regra = ctrl.Rule(valores["gravidade"][gravidade[indice]] |
-                            valores["urgencia"][urgencia[indice]] &
-                            valores["tendencia"][tendencia[indice]],
-                            valores["saida"][saida[indice]]
-                            )"""
+       
         if g > t:
             regra = ctrl.Rule(valores["gravidade"][gravidade[indice]] |
                             valores["urgencia"][urgencia[indice]] &
