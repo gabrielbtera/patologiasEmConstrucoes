@@ -8,8 +8,11 @@ import pandas as pd
 
 def ler_planilha(nome):
     """faz a leitura do arquivo excell e retorna a planilha"""
-    xl = pd.ExcelFile("ferramenta-gut.xlsx")
+    import os
+    pre = os.path.dirname(os.path.realpath(__file__))
+    xl = pd.ExcelFile(pre + "\\ferramenta-gut.xlsx")
     planilha = xl.parse(nome)
+    
     return planilha
 
 
