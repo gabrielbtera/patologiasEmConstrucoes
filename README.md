@@ -34,3 +34,10 @@ py -m pip install -U xlrd
 ```
 py -m pip install -U openpyxl
 ```
+
+## Funcionamento inicial:
+
+#### Após isso o preechimento dos campos G U T da planilha é necessário os valores são inteiros de 1 a 5, fora deste intervalo a analise será comprometida.
+
+
+![planilha](https://user-images.githubusercontent.com/53129406/132886320-8651f524-43b6-4dc8-b2c1-6bdd777b4fe2.PNG)
