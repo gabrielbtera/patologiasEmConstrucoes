@@ -93,5 +93,5 @@ Digite a sua opcao: 4
 Digite os numeros separados por um espaço: 3 1 2
 ```
 # 
-### O programa tem a capacidade de tomar uma decisão sobre a ordem de consertos de uma estrutura, ajudando um engenheiro civil a tomar as melhores decisão. Em breve o projeto será atualizado em uma aplicação web. 
+### O programa tem a capacidade de tomar uma decisão sobre a ordem de consertos de uma estrutura, ajudando um engenheiro civil a tomar as melhores decisões. Em breve o projeto será atualizado em uma aplicação web. 
 
